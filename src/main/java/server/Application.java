@@ -1,10 +1,13 @@
 package server;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import server.storage.FileSystemStorageService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,6 +17,13 @@ import javax.servlet.http.HttpSession;
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
+    }
+
+    @Bean
+    CommandLineRunner init(FileSystemStorageService storageService) {
+        return (args) -> {
+            storageService.init();
+        };
     }
 
     //Added Model model to access username information and add to thymleaf on html

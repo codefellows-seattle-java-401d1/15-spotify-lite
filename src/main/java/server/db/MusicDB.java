@@ -85,6 +85,7 @@ public class MusicDB {
                 String username = results.getString("username");
                 String artist = results.getString("artist");
                 String song = results.getString("song");
+                String uploadlocation = results.getString("uploadlocation");
 
                 Music allMusic = new Music(musicid, username, artist, song);
                 music.add(allMusic);
@@ -105,6 +106,7 @@ public class MusicDB {
             String username = results.getString("username");
             String artist = results.getString("artist");
             String song = results.getString("song");
+            String uploadlocation = results.getString("uploadlocation");
 
             Music music = new Music(musicid, username, artist, song);
             return music;
@@ -128,6 +130,7 @@ public class MusicDB {
             String username = results.getString("username");
             String artist = results.getString("artist");
             String song = results.getString("song");
+            String uploadlocation = results.getString("uploadlocation");
 
             Music music = new Music(musicid, username, artist, song);
             return music;
@@ -152,6 +155,7 @@ public class MusicDB {
             String username = results.getString("username");
             String artist = results.getString("artist");
             String song = results.getString("song");
+            String uploadlocation = results.getString("uploadlocation");
 
             Music music = new Music(musicid, username, artist, song);
             return music;
@@ -162,7 +166,7 @@ public class MusicDB {
     }
 
     public static Music updateMusicInfo (int searchId, String newArtist, String newSong) {
-        String sql = "UPDATE music SET artist='%s' WHERE musicid=%d RETURNING *;";
+        String sql = "UPDATE music SET artist='%s', song='%s', uploadlocation='%s' WHERE musicid=%d RETURNING *;";
         sql = String.format(sql, newArtist, newSong, searchId);
 
         try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
@@ -172,6 +176,7 @@ public class MusicDB {
             String username = results.getString("username");
             String artist = results.getString("artist");
             String song = results.getString("song");
+            String uploadlocation = results.getString("uploadlocation");
 
             Music music = new Music(musicid, username, artist, song);
             return music;
