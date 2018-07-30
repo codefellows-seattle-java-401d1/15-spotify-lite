@@ -10,18 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import server.db.MusicDB;
+import server.db.UserDB;
 import server.models.Music;
 import server.storage.FileSystemStorageService;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
-
-import static server.db.MusicDB.getMusicById;
-import static server.db.MusicDB.getMusicByUserName;
 
 @Controller
 public class FileUploadController {
@@ -33,13 +27,14 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
-    @GetMapping("/auth")
-    public String listUploadedMusic(Model model) throws IOException {
+    @GetMapping("/index")
+    public String listUploadedMusic(@RequestParam("username") String username, Model model) throws IOException {
         model.addAttribute("files", storageService.loadAll().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                         "serveFile", path.getFileName().toString()).build().toString())
                 .collect(Collectors.toList()));
-
+        model.addAttribute(username);
+        System.out.println("From List Uploaded Music: \n" + "User Name = " + username);
         return "secret";
     }
 
@@ -57,13 +52,13 @@ public class FileUploadController {
 
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   @RequestParam("artist") String artist,
+                                   @RequestParam("song") String song,
                                    Model model, RedirectAttributes redirectAttributes) {
 
 
 /*
         @RequestParam("username") String username,
-        @RequestParam("artist") String artist,
-        @RequestParam("song") String song,
         @RequestParam("uploadlocation") String uploadlocation,
 */
         try {
@@ -71,22 +66,21 @@ public class FileUploadController {
             String filepath = storageService.store(file);
             filepath = filepath.split("public")[1];
             System.out.println("From Handle File Upload: " + filepath);
+            System.out.println("From Handle File Upload: " + artist);
+            System.out.println("From Handle File Upload: " + song);
 
-//            Music songs = new Music();
-//            songs.artist = artist;
-//            songs.song = song;
-//            songs.uploadlocation = filepath;
+            Music songs = new Music();
+            songs.artist = artist;
+            songs.song = song;
+            songs.uploadlocation = filepath;
 
-//            MusicDB.XXXXX.add(songs);
+            UserDB.songs.add(songs);
+            
+            model.addAttribute("songs", songs);
+            model.addAttribute("artist", artist);
+            model.addAttribute("song", song);
 
-//            List<Music> music = (List<Music>) getMusicByUserName(username);
-//            model.addAttribute("music", music);
-//
-//            model.addAttribute("artist", artist);
-//            model.addAttribute("song", song);
 //            model.addAttribute("uploadlocation", uploadlocation);
-//            System.out.println(model.addAttribute("artist", artist));
-//            System.out.println(model.addAttribute("song", song));
 //            System.out.println(model.addAttribute("uploadlocation", uploadlocation));
 
 
@@ -94,6 +88,6 @@ public class FileUploadController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "redirect:/uploadForm";
+        return "redirect:/";
     }
 }

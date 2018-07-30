@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 
 @Service
 public class FileSystemStorageService {
-    private final String ROOT_FILEPATH = "uploads";
+    private final String ROOT_FILEPATH = "/Users/amycohen/codefellows/401/lab-amy/15-spotify-lite/src/main/resources/public/uploads";
     private final Path rootLocation;
 
     @Autowired
