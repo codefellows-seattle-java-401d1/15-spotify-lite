@@ -5,8 +5,6 @@ import server.pojo.MusicPojo;
 import server.pojo.UserPojo;
 
 public class Music {
-//    private static final String DEFAULT_USER = "No Name";
-//    private static final String DEFAULT_PASSHASH = "password";
     private static final String DEFAULT_ARTIST = "unknown";
     private static final String DEFAULT_SONG = "unknown";
     private static final String DEFAULT_UPLOADLOCATION = "/uploads";
@@ -31,7 +29,6 @@ public class Music {
     }
 
     public Music(String artist, String song, String uploadlocation) {
-//        this.username = username;
         this.artist = artist;
         this.song = song;
         this.uploadlocation = uploadlocation;
