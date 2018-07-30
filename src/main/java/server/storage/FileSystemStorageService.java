@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 
 @Service
 public class FileSystemStorageService {
-    private final String ROOT_FILEPATH = "upload-dir";
+    private final String ROOT_FILEPATH = "uploads";
     private final Path rootLocation;
 
     @Autowired

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/private")
 public class PrivateController {
+
     @RequestMapping("/*")
     public ModelAndView handlePrivateRequests(HttpServletRequest request, Model model) {
         String servlet = request.getServletPath();
