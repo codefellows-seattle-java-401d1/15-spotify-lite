@@ -20,7 +20,8 @@ CREATE TABLE music (
   musicid serial,
   username text,
   artist text,
-  song text
+  song text,
+  uploadlocation text
 );
 
 INSERT INTO music(username, artist, song)

@@ -12,8 +12,9 @@ public class Music {
 
     public int musicid;
     public String username;
-    private String artist;
-    private String song;
+    public String artist;
+    public String song;
+    public String uploadlocation;
 
     public Music() {
         this(DEFAULT_ARTIST, DEFAULT_ARTIST, DEFAULT_SONG);

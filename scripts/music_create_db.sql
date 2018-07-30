@@ -15,7 +15,8 @@ CREATE TABLE users (
   musicid serial,
   username char(20),
   artist char(80),
-  song char(80)
+  song char(80),
+  uploadlocation char(250)
 );
 
 # add a few default users with pre-computed hashed passwords

@@ -96,6 +96,27 @@ public class MusicDB {
         return music;
     }
 
+    public static Music getMusicByUserName(String searchUserName) {
+        String sql = "SELECT * FROM music WHERE username=%d";
+        sql = String.format(sql, searchUserName);
+
+        try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
+            results.next();
+            int musicid = results.getInt("musicid");
+            String username = results.getString("username");
+            String artist = results.getString("artist");
+            String song = results.getString("song");
+            String uploadlocation = results.getString("uploadlocation");
+
+            Music music = new Music(musicid, username, artist, song);
+            return music;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
     public static Music getMusicById(int searchId) {
         String sql = "SELECT * FROM music WHERE musicid=%d";
         sql = String.format(sql, searchId);

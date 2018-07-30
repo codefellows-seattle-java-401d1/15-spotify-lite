@@ -27,7 +27,7 @@ public class FileSystemStorageService {
         this.rootLocation = Paths.get(ROOT_FILEPATH);
     }
 
-    public void store(MultipartFile file) throws IOException {
+    public String store(MultipartFile file) throws IOException {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         if (file.isEmpty()) {
             throw new IOException("Failed to store empty file " + filename);
@@ -38,8 +38,10 @@ public class FileSystemStorageService {
                     "Cannot store file with relative path outside current directory "
                             + filename);
         }
-        Files.copy(file.getInputStream(), this.rootLocation.resolve(filename),
+        Path destination = this.rootLocation.resolve(filename);
+        Files.copy(file.getInputStream(), destination,
                 StandardCopyOption.REPLACE_EXISTING);
+        return destination.toString();
     }
 
     public Stream<Path> loadAll() throws IOException {
