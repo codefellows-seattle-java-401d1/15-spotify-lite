@@ -69,25 +69,16 @@ public class FileUploadController {
             System.out.println("From Handle File Upload: " + artist);
             System.out.println("From Handle File Upload: " + song);
 
-            Music songs = new Music();
-            songs.artist = artist;
-            songs.song = song;
-            songs.uploadlocation = filepath;
+            Music mp3 = new Music();
+            mp3.artist = artist;
+            mp3.song = song;
+            mp3.uploadlocation = filepath;
 
-            UserDB.songs.add(songs);
-            
-            model.addAttribute("songs", songs);
-            model.addAttribute("artist", artist);
-            model.addAttribute("song", song);
-
-//            model.addAttribute("uploadlocation", uploadlocation);
-//            System.out.println(model.addAttribute("uploadlocation", uploadlocation));
-
-
+            UserDB.songs.add(mp3);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "redirect:/";
+        return "redirect:/secret";
     }
 }
