@@ -24,7 +24,7 @@ CREATE TABLE music (
   uploadlocation text
 );
 
-INSERT INTO music(username, artist, song)
+INSERT INTO music(username, artist, song, uploadlocation)
 VALUES('gooseberries', 'unknown', 'china doll', '/uploads/China Doll.wav'),
       ('huckleberries', 'unknown', 'fallin', '/uploads/Fallin-extended-mix.mp3');
 

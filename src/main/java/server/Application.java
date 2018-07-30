@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import server.db.UserDB;
 import server.storage.FileSystemStorageService;
 
 import javax.servlet.http.HttpServletRequest;

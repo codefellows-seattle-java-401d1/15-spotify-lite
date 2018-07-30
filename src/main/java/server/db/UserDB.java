@@ -1,6 +1,7 @@
 package server.db;
 
 import org.mindrot.jbcrypt.BCrypt;
+import server.models.Music;
 import server.models.User;
 
 import java.sql.Connection;
@@ -49,9 +50,9 @@ public class UserDB {
                 "        song text, " +
                 "        uploadlocation text " +
                 "); " +
-                "INSERT INTO users(username, passhash) " +
-                "VALUES('gooseberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se'), " +
-                "       ('huckleberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se'); ";
+                "INSERT INTO users(username, passhash, artist, song, uploadlocation) " +
+                "VALUES('gooseberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se', 'unknown', 'china doll', '/uploads/China Doll.wav'), " +
+                "       ('huckleberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se', 'unknown', 'fallin', '/uploads/Fallin-extended-mix.mp3'); ";
 
         try {
             mConn.createStatement().execute(sql);
@@ -68,7 +69,6 @@ public class UserDB {
         try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
             results.next();
             int userid = results.getInt("userid");
-//            User user = new User(userid, username, hashed, bio);
             User user = new User(userid, username, hashed);
             return user;
         } catch (SQLException e) {
@@ -136,6 +136,153 @@ public class UserDB {
         return null;
     }
 
+    public static Music createMusic(String username, String artist, String song, String uploadlocation) {
+        String sql = "INSERT INTO music(username, artist, song, uploadlocation) VALUES('%s', '%s', '%s', '%s') RETURNING (musicid);";
+        sql = String.format(sql, username, artist, song, uploadlocation);
+
+        try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
+            results.next();
+            int musicid = results.getInt("musicid");
+            Music music = new Music(musicid, username, artist, song);
+            return music;
+        } catch (SQLException e) {
+            return null;
+        }
+    }
+
+    public static List<Music> getAllMusic() {
+        List<Music> music = new ArrayList<>();
+
+        String sql = "SELECT * FROM music";
+
+        try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
+            while (results.next()) {
+                int musicid = results.getInt("musicid");
+                String username = results.getString("username");
+                String artist = results.getString("artist");
+                String song = results.getString("song");
+                String uploadlocation = results.getString("uploadlocation");
+
+                Music allMusic = new Music(musicid, username, artist, song);
+                music.add(allMusic);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return music;
+    }
+
+    public static Music getMusicByUserName(String searchUserName) {
+        String sql = "SELECT * FROM music WHERE username=%d";
+        sql = String.format(sql, searchUserName);
+
+        try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
+            results.next();
+            int musicid = results.getInt("musicid");
+            String username = results.getString("username");
+            String artist = results.getString("artist");
+            String song = results.getString("song");
+            String uploadlocation = results.getString("uploadlocation");
+
+            Music music = new Music(musicid, username, artist, song);
+            return music;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static Music getMusicById(int searchId) {
+        String sql = "SELECT * FROM music WHERE musicid=%d";
+        sql = String.format(sql, searchId);
+
+        try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
+            results.next();
+            int musicid = results.getInt("musicid");
+            String username = results.getString("username");
+            String artist = results.getString("artist");
+            String song = results.getString("song");
+            String uploadlocation = results.getString("uploadlocation");
+
+            Music music = new Music(musicid, username, artist, song);
+            return music;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Music getMusicByArtistName(String searchArtist) {
+        String sql = "SELECT * FROM music WHERE artist='%s'";
+        sql = String.format(sql, searchArtist);
+
+        try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
+            if (!results.next()) {
+                // no matching user
+                return null;
+            }
+
+            int musicid = results.getInt("musicid");
+            String username = results.getString("username");
+            String artist = results.getString("artist");
+            String song = results.getString("song");
+            String uploadlocation = results.getString("uploadlocation");
+
+            Music music = new Music(musicid, username, artist, song);
+            return music;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public static Music getMusicBySongName(String searchSong) {
+        String sql = "SELECT * FROM music WHERE song='%s'";
+        sql = String.format(sql, searchSong);
+
+        try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
+            if (!results.next()) {
+                // no matching user
+                return null;
+            }
+
+            int musicid = results.getInt("musicid");
+            String username = results.getString("username");
+            String artist = results.getString("artist");
+            String song = results.getString("song");
+            String uploadlocation = results.getString("uploadlocation");
+
+            Music music = new Music(musicid, username, artist, song);
+            return music;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Music updateMusicInfo (int searchId, String newArtist, String newSong) {
+        String sql = "UPDATE music SET artist='%s', song='%s', uploadlocation='%s' WHERE musicid=%d RETURNING *;";
+        sql = String.format(sql, newArtist, newSong, searchId);
+
+        try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
+            results.next();
+
+            int musicid = results.getInt("musicid");
+            String username = results.getString("username");
+            String artist = results.getString("artist");
+            String song = results.getString("song");
+            String uploadlocation = results.getString("uploadlocation");
+
+            Music music = new Music(musicid, username, artist, song);
+            return music;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 //    public static User updateUserBio (int searchId, String newBio) {
 //        String sql = "UPDATE users SET bio='%s' WHERE userid=%d RETURNING *;";
 //        sql = String.format(sql, newBio, searchId);
@@ -156,17 +303,17 @@ public class UserDB {
 //        }
 //    }
 
-    public static boolean deleteUser (int searchId) {
-        String sql = "DELETE FROM users WHERE userid=%d;";
-        sql = String.format(sql, searchId);
-
-        try {
-            mConn.createStatement().execute(sql);
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-    }
+//    public static boolean deleteUser (int searchId) {
+//        String sql = "DELETE FROM users WHERE userid=%d;";
+//        sql = String.format(sql, searchId);
+//
+//        try {
+//            mConn.createStatement().execute(sql);
+//            return true;
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//
+//    }
 }

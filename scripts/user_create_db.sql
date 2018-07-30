@@ -14,13 +14,16 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   userid serial,
   username char(20),
-  passhash char(80)
+  passhash char(80),
+  artist char(80),
+  song char(80),
+  uploadlocation char(250)
 );
 
 # add a few default users with pre-computed hashed passwords
 # ugh, Postgres wants single quotes, not double quotes
 INSERT INTO users(username, passhash)
-VALUES('gooseberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se'),
-      ('huckleberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se');
+VALUES('gooseberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se', 'unknown', 'china doll', '/uploads/China Doll.wav'),
+      ('huckleberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se', 'unknown', 'fallin', '/uploads/Fallin-extended-mix.mp3');
 
 SELECT * FROM users;

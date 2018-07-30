@@ -19,11 +19,15 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
   userid serial,
   username text,
-  passhash text
+  passhash text,
+  username text,
+  artist text,
+  song text,
+  uploadlocation text
 );
 
-INSERT INTO users(username, passhash)
-VALUES('gooseberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se'),
-      ('huckleberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se');
+INSERT INTO users(username, passhash, artist, song, uploadlocation)
+VALUES('gooseberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se', 'unknown', 'china doll', '/uploads/China Doll.wav'),
+      ('huckleberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se', 'unknown', 'fallin', '/uploads/Fallin-extended-mix.mp3');
 
 SELECT * FROM users;
