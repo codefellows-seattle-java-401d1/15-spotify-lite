@@ -20,7 +20,6 @@ CREATE TABLE users (
   userid serial,
   username text,
   passhash text,
-  username text,
   artist text,
   song text,
   uploadlocation text
