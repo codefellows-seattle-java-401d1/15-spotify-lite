@@ -1,0 +1,7 @@
+<div th:each="song : ${songs}" xmlns:th="http://www.w3.org/1999/xhtml">
+    <span th:text="${song.title}"></span>
+    <span th:text="${song.artist}"></span>
+    <audio controls="controls">
+        <source th:src="${song.path}"></source>
+    </audio>
+</div>
