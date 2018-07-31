@@ -4,26 +4,21 @@
     <title>Upload Form</title>
 </head>
 <body>
-<!--<div th:if="${message}">-->
-<!--<h2 th:text="${message}"/>-->
-<!--</div>-->
-
-<div>
-    <form method="POST" enctype="multipart/form-data" action="/">
-        File to upload: <input type="file" name="file" />
-        <input type="submit" value="Upload" />
-    </form>
-</div>
 
 <div>
     <ul>
-        <li th:each="file : ${files}">
+        <li th:each="song : ${songs}">
             <p>
-                <a th:href="${file}" th:text="${file}" />
+                <a th:href="${song.uploadlocation}" th:text="${song.song}" />
+                <br />
+                <audio controls="controls">
+                    <source th:src="${song.uploadlocation}" type="audio/mp3"></source>
+                </audio>
+                <br />
+                <span th:text="${song.song}"></span> BY:
+                <span th:text="${song.artist}"></span>
             </p>
-            <p th:if="${file.endsWith('jpg')}">
-                <img th:src="${file}" />
-            </p>
+            <hr />
         </li>
     </ul>
 </div>

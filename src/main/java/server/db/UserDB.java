@@ -139,13 +139,13 @@ public class UserDB {
     }
 
 //    public static Music createMusic(String username, String artist, String song, String uploadlocation) {
-//        String sql = "INSERT INTO music(username, artist, song, uploadlocation) VALUES('%s', '%s', '%s', '%s') RETURNING (musicid);";
-//        sql = String.format(sql, username, artist, song, uploadlocation);
+//        String sql = "UPDATE user SET artist=songs.artist, song=songs.song, uploadlocation=songs.uploadlocation WHERE username=username;";
+//        sql = String.format(sql, artist, song, uploadlocation);
 //
 //        try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
 //            results.next();
 //            int musicid = results.getInt("musicid");
-//            Music music = new Music(musicid, username, artist, song);
+//            Music music = new Music(username, artist, song, uploadlocation);
 //            return music;
 //        } catch (SQLException e) {
 //            return null;
@@ -165,7 +165,7 @@ public class UserDB {
                 String song = results.getString("song");
                 String uploadlocation = results.getString("uploadlocation");
 
-                Music allMusic = new Music(username, artist, song);
+                Music allMusic = new Music(username, artist, song, uploadlocation);
                 music.add(allMusic);
             }
         } catch (SQLException e) {
@@ -186,7 +186,7 @@ public class UserDB {
             String song = results.getString("song");
             String uploadlocation = results.getString("uploadlocation");
 
-            Music music = new Music(username, artist, song);
+            Music music = new Music(username, artist, song, uploadlocation);
             return music;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -231,7 +231,7 @@ public class UserDB {
             String song = results.getString("song");
             String uploadlocation = results.getString("uploadlocation");
 
-            Music music = new Music(username, artist, song);
+            Music music = new Music(username, artist, song, uploadlocation);
             return music;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -256,7 +256,7 @@ public class UserDB {
             String song = results.getString("song");
             String uploadlocation = results.getString("uploadlocation");
 
-            Music music = new Music(username, artist, song);
+            Music music = new Music(username, artist, song, uploadlocation);
             return music;
         } catch (SQLException e) {
             e.printStackTrace();
