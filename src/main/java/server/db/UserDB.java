@@ -47,14 +47,11 @@ public class UserDB {
                 "CREATE TABLE users ( " +
                 "        userid serial, " +
                 "        username text, " +
-                "        passhash text, " +
-                "        artist text, " +
-                "        song text, " +
-                "        uploadlocation text " +
+                "        passhash text " +
                 "); " +
-                "INSERT INTO users(username, passhash, artist, song, uploadlocation) " +
-                "VALUES('gooseberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se', 'unknown', 'china doll', '/uploads/China Doll.wav'), " +
-                "       ('huckleberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se', 'unknown', 'fallin', '/uploads/Fallin-extended-mix.mp3'); ";
+                "INSERT INTO users(username, passhash) " +
+                "VALUES('gooseberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se'), " +
+                "       ('huckleberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se'); ";
 
         try {
             mConn.createStatement().execute(sql);
@@ -137,20 +134,6 @@ public class UserDB {
         }
         return null;
     }
-
-//    public static Music createMusic(String username, String artist, String song, String uploadlocation) {
-//        String sql = "UPDATE user SET artist=songs.artist, song=songs.song, uploadlocation=songs.uploadlocation WHERE username=username;";
-//        sql = String.format(sql, artist, song, uploadlocation);
-//
-//        try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
-//            results.next();
-//            int musicid = results.getInt("musicid");
-//            Music music = new Music(username, artist, song, uploadlocation);
-//            return music;
-//        } catch (SQLException e) {
-//            return null;
-//        }
-//    }
 
     public static List<Music> getAllMusic() {
         List<Music> music = new ArrayList<>();
