@@ -26,11 +26,13 @@ public class PrivateController {
             mv.setViewName("secret");
             String username = (String) session.getAttribute("username");
 
+// ========================= Previous music by username on log in ========================
             mv.addObject("musicObjectQueue", MusicDB.getMusicByUserName(username));
             for (Music music : MusicDB.getMusicByUserName(username)) {
                 System.out.println("artist = " + music.artist);
                 System.out.println("song = " + music.song);
             }
+// ============================= end of previous music logic ============================
 
         } else {
             //setting username to null if the session is not logged in

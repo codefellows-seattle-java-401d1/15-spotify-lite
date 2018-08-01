@@ -73,9 +73,8 @@ public class FileUploadController {
             String username = (String) session.getAttribute("username");
             String filepath = storageService.store(file);
             filepath = filepath.split("public")[1];
-            System.out.println("From Handle File Upload: " + filepath);
-            System.out.println("From Handle File Upload: " + artist);
-            System.out.println("From Handle File Upload: " + song);
+
+// ========================== Newly added music shows on html ==========================
 
             Music mp3 = new Music();
             mp3.username = username;
@@ -85,15 +84,17 @@ public class FileUploadController {
 
             MusicDB.createMusic(username, artist, song, filepath);
             MusicDB.songs.add(mp3);
+// ============================== end of newly added music ==============================
 
+
+// ============================= Previous music shows on html ============================
             mv.setViewName("secret");
-
             mv.addObject("musicObjectQueue", MusicDB.getMusicByUserName(username));
             for (Music music : MusicDB.getMusicByUserName(username)) {
                 System.out.println("artist = " + music.artist);
                 System.out.println("song = " + music.song);
             }
-
+// ============================ end of previously added music ============================
 
         } catch (IOException e) {
             e.printStackTrace();
