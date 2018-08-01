@@ -9,7 +9,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class MusicDB {
 
@@ -102,25 +104,30 @@ public class MusicDB {
 //        return music;
 //    }
 //
-//    public static Music getMusicByUserName(String searchUserName) {
-//        String query = "SELECT * FROM music WHERE username=%d";
-//        query = String.format(query, searchUserName);
-//
-//        try (ResultSet results = mConn.createStatement().executeQuery(query)) {
-//            results.next();
-//            int musicid = results.getInt("musicid");
-//            String username = results.getString("username");
-//            String artist = results.getString("artist");
-//            String song = results.getString("song");
-//            String uploadlocation = results.getString("uploadlocation");
-//
-//            Music music = new Music(musicid, username, artist, song);
-//            return music;
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+    public static Queue<Music> getMusicByUserName(String searchUserName) {
+        String query = "SELECT * FROM music WHERE username='%s'";
+        query = String.format(query, searchUserName);
+
+        try (ResultSet results = mConn.createStatement().executeQuery(query)) {
+            Queue<Music> musicList = new LinkedList<>();
+
+            while(results.next()) {
+//                results.next();
+                int musicid = results.getInt("musicid");
+                String username = results.getString("username");
+                String artist = results.getString("artist");
+                String song = results.getString("song");
+                String uploadlocation = results.getString("uploadlocation");
+
+                Music music = new Music(musicid, username, artist, song, uploadlocation);
+                musicList.add(music);
+            }
+                return musicList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 //
 //
 //    public static Music getMusicById(int searchId) {

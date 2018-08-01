@@ -15,8 +15,6 @@ import java.util.Properties;
 
 public class UserDB {
     private static Connection mConn;
-    public static final List<Music> songs = new ArrayList<>();
-
 
     static {
         try {

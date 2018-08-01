@@ -5,6 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import server.db.MusicDB;
+import server.models.Music;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -22,6 +24,14 @@ public class PrivateController {
         boolean isLoggedIn = (boolean) session.getAttribute("loggedin");
         if (isLoggedIn) {
             mv.setViewName("secret");
+            String username = (String) session.getAttribute("username");
+
+            mv.addObject("musicObjectQueue", MusicDB.getMusicByUserName(username));
+            for (Music music : MusicDB.getMusicByUserName(username)) {
+                System.out.println("artist = " + music.artist);
+                System.out.println("song = " + music.song);
+            }
+
         } else {
             //setting username to null if the session is not logged in
             model.addAttribute("username", null);
