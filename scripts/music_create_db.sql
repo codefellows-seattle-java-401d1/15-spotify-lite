@@ -1,10 +1,10 @@
 psql
 
-# \c -- see connection
-# \c tablename -- connect to table
-# \l -- list all databases
-
-# this create a database in all lowercase "spotifylite"
+-- # \c -- see connection
+-- # \c tablename -- connect to table
+-- # \l -- list all databases
+--
+-- # this create a database in all lowercase "spotifylite"
 CREATE DATABASE spotifylite;
 \connect spotifylite
 

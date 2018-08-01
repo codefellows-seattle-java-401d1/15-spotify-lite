@@ -1,32 +1,27 @@
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <!--<link rel="stylesheet" href="/style.css" />-->
-    <title>Upload Form</title>
-</head>
-<body>
-<!--<div th:if="${message}">-->
-<!--<h2 th:text="${message}"/>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+    <!--&lt;!&ndash;<link rel="stylesheet" href="/style.css" />&ndash;&gt;-->
+    <!--<title>Upload Form</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--<div>-->
+    <!--<ul>-->
+        <!--<li th:each="song : ${songs}">-->
+            <!--<p>-->
+                <!--<a th:href="${song.uploadlocation}" th:text="${song.song}" />-->
+                <!--<br />-->
+                <!--<audio controls="controls">-->
+                    <!--<source th:src="${song.uploadlocation}" type="audio/mp3"></source>-->
+                <!--</audio>-->
+                <!--<br />-->
+                <!--<span th:text="${song.song}"></span> BY:-->
+                <!--<span th:text="${song.artist}"></span>-->
+            <!--</p>-->
+            <!--<hr />-->
+        <!--</li>-->
+    <!--</ul>-->
 <!--</div>-->
 
-<div>
-    <form method="POST" enctype="multipart/form-data" action="/">
-        File to upload: <input type="file" name="file" />
-        <input type="submit" value="Upload" />
-    </form>
-</div>
-
-<div>
-    <ul>
-        <li th:each="file : ${files}">
-            <p>
-                <a th:href="${file}" th:text="${file}" />
-            </p>
-            <p th:if="${file.endsWith('jpg')}">
-                <img th:src="${file}" />
-            </p>
-        </li>
-    </ul>
-</div>
-
-</body>
-</html>
+<!--</body>-->
+<!--</html>-->

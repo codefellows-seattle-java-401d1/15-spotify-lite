@@ -3,7 +3,10 @@ package server;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import server.db.MusicDB;
+import server.models.Music;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,6 +24,16 @@ public class PrivateController {
         boolean isLoggedIn = (boolean) session.getAttribute("loggedin");
         if (isLoggedIn) {
             mv.setViewName("secret");
+            String username = (String) session.getAttribute("username");
+
+// ========================= Previous music by username on log in ========================
+            mv.addObject("musicObjectQueue", MusicDB.getMusicByUserName(username));
+            for (Music music : MusicDB.getMusicByUserName(username)) {
+                System.out.println("artist = " + music.artist);
+                System.out.println("song = " + music.song);
+            }
+// ============================= end of previous music logic ============================
+
         } else {
             //setting username to null if the session is not logged in
             model.addAttribute("username", null);
@@ -29,7 +42,7 @@ public class PrivateController {
 
         //I wanted a more meaningful and easily read console log to follow the program through
         System.out.println("From Private Controller:"
-                + "\n" + "Logged In = " + session.getAttribute("loggedin") + "\n");
+                +"\n" + "Logged In = " + session.getAttribute("loggedin") + "\n");
 
         return mv;
     }

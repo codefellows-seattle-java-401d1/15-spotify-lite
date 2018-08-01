@@ -20,7 +20,7 @@ public class AuthController {
 
     //Register a first-time user
     @PostMapping("/register")
-    public ModelAndView register(@RequestParam String username, @RequestParam String password, @RequestParam String bio) {
+    public ModelAndView register(@RequestParam String username, @RequestParam String password, HttpServletRequest request) {
         ModelAndView mv = new ModelAndView();
 
         if (UserDB.getUserByName(username) != null) {
@@ -30,6 +30,8 @@ public class AuthController {
             UserDB.createUser(username, password);
             mv.setViewName("loggedin");
             mv.addObject("username", username);
+            HttpSession session = request.getSession();
+            session.setAttribute("loggedin", true);
         }
         return mv;
     }

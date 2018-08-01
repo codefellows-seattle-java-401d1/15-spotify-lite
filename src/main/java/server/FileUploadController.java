@@ -8,12 +8,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import server.db.MusicDB;
 import server.db.UserDB;
 import server.models.Music;
 import server.storage.FileSystemStorageService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
@@ -27,14 +31,15 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
+
+    //This isn't being hit at all and I cannot figure out what needs to be called.
     @GetMapping("/index")
-    public String listUploadedMusic(@RequestParam("username") String username, Model model) throws IOException {
+    public String listUploadedMusic(Model model) throws IOException {
         model.addAttribute("files", storageService.loadAll().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
                         "serveFile", path.getFileName().toString()).build().toString())
                 .collect(Collectors.toList()));
-        model.addAttribute(username);
-        System.out.println("From List Uploaded Music: \n" + "User Name = " + username);
+        System.out.println("From List Uploaded Music: \n" + "User Name = ");
         return "secret";
     }
 
@@ -43,6 +48,7 @@ public class FileUploadController {
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
         try {
             Resource file = storageService.loadAsResource(filename);
+            System.out.println("server file function");
             return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
                     "attachment; filename=\"" + file.getFilename() + "\"").body(file);
         } catch (IOException e) {
@@ -51,34 +57,50 @@ public class FileUploadController {
     }
 
     @PostMapping("/")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+    public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile file,
+//                                   @RequestParam("username") String username,
                                    @RequestParam("artist") String artist,
                                    @RequestParam("song") String song,
-                                   Model model, RedirectAttributes redirectAttributes) {
+                                   Model model, RedirectAttributes redirectAttributes,
+                                   HttpServletRequest request) {
 
 
-/*
-        @RequestParam("username") String username,
-        @RequestParam("uploadlocation") String uploadlocation,
-*/
+        ModelAndView mv = new ModelAndView();
+
+
         try {
-
+            HttpSession session = request.getSession();
+            String username = (String) session.getAttribute("username");
             String filepath = storageService.store(file);
             filepath = filepath.split("public")[1];
-            System.out.println("From Handle File Upload: " + filepath);
-            System.out.println("From Handle File Upload: " + artist);
-            System.out.println("From Handle File Upload: " + song);
+
+// ========================== Newly added music shows on html ==========================
 
             Music mp3 = new Music();
+            mp3.username = username;
             mp3.artist = artist;
             mp3.song = song;
             mp3.uploadlocation = filepath;
 
-            UserDB.songs.add(mp3);
+            MusicDB.createMusic(username, artist, song, filepath);
+            MusicDB.songs.add(mp3);
+// ============================== end of newly added music ==============================
+
+
+// ============================= Previous music shows on html ============================
+            mv.setViewName("secret");
+            mv.addObject("musicObjectQueue", MusicDB.getMusicByUserName(username));
+            for (Music music : MusicDB.getMusicByUserName(username)) {
+                System.out.println("artist = " + music.artist);
+                System.out.println("song = " + music.song);
+            }
+// ============================ end of previously added music ============================
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "redirect:/secret";
+//        return "redirect:/secret";
+        return mv;
+
     }
 }
