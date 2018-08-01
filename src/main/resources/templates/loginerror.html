@@ -2,13 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8" />
-        <title>Title</title>
+        <title>ERROR</title>
+        <link rel="stylesheet" href="/css/main.css" />
+
     </head>
     <body>
-        <h1>Error Logging in</h1>
-        <p th:text="${error}" />
-        <p>
-            <a href="/">home</a>
-        </p>
+        <header>
+            <div>
+                <h1>Error Logging In</h1>
+                <p th:text="${error}"></p>
+            </div>
+            <nav>
+                <a href="/">HOME</a>
+            </nav>
+        </header>
     </body>
 </html>

@@ -30,25 +30,27 @@
         </header>
 
         <main>
-        <div id="login">
-            <h2>Login</h2>
+        <div th:if="${username == 'user'}">
+            <div id="login">
+                <h2>Login</h2>
 
-            <form action="/auth/login" method="POST">
-                <div>Username: <input type="text" name="username" /></div>
-                <div>Password: <input name="password" type="password" /></div>
-                <input type="submit" />
-            </form>
-        </div>
+                <form action="/auth/login" method="POST">
+                    <div>Username: <input type="text" name="username" /></div>
+                    <div>Password: <input name="password" type="password" /></div>
+                    <input type="submit" />
+                </form>
+            </div>
 
-        <div id="register">
-            <h2>Register</h2>
+            <div id="register">
+                <h2>Register</h2>
 
-            <form action="/auth/register" method="POST">
-                <div>Username: <input type="text" name="username" /></div>
-                <div>Password: <input name="password" type="password" /></div>
+                <form action="/auth/register" method="POST">
+                    <div>Username: <input type="text" name="username" /></div>
+                    <div>Password: <input name="password" type="password" /></div>
 
-                <input type="submit" />
-            </form>
+                    <input type="submit" />
+                </form>
+            </div>
         </div>
 
         <div id="logout">
