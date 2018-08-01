@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import server.db.MusicDB;
@@ -56,7 +57,7 @@ public class FileUploadController {
     }
 
     @PostMapping("/")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file,
+    public ModelAndView handleFileUpload(@RequestParam("file") MultipartFile file,
 //                                   @RequestParam("username") String username,
                                    @RequestParam("artist") String artist,
                                    @RequestParam("song") String song,
@@ -64,10 +65,9 @@ public class FileUploadController {
                                    HttpServletRequest request) {
 
 
-/*
-        @RequestParam("username") String username,
-        @RequestParam("uploadlocation") String uploadlocation,
-*/
+        ModelAndView mv = new ModelAndView();
+
+
         try {
             HttpSession session = request.getSession();
             String username = (String) session.getAttribute("username");
@@ -86,9 +86,20 @@ public class FileUploadController {
             MusicDB.createMusic(username, artist, song, filepath);
             MusicDB.songs.add(mp3);
 
+            mv.setViewName("secret");
+
+            mv.addObject("musicObjectQueue", MusicDB.getMusicByUserName(username));
+            for (Music music : MusicDB.getMusicByUserName(username)) {
+                System.out.println("artist = " + music.artist);
+                System.out.println("song = " + music.song);
+            }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "redirect:/secret";
+//        return "redirect:/secret";
+        return mv;
+
     }
 }
