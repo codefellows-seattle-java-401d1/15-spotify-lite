@@ -27,11 +27,7 @@ public class FileSystemStorageService {
     @Autowired
     public FileSystemStorageService() {
         //URL sqlScriptUrl = FileSystemStorageService.class.getClass().getResource("/public/uploads");
-        //this.rootLocation = Paths.get(sqlScriptUrl.toString());
-        this.rootLocation = Paths.get(LOCAL_PATH);
-        if (this.rootLocation == null) {
-            this.rootLocation = Paths.get(HEROKU_PATH);
-        }
+        this.rootLocation = Paths.get(HEROKU_PATH);
         System.out.println("PATH: " + this.rootLocation);
     }
 
