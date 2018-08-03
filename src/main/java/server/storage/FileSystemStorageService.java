@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,12 +20,12 @@ import java.util.stream.Stream;
 
 @Service
 public class FileSystemStorageService {
-    private final String ROOT_FILEPATH = "/Users/amycohen/codefellows/401/lab-amy/15-spotify-lite/src/main/resources/public/uploads";
     private final Path rootLocation;
 
     @Autowired
     public FileSystemStorageService() {
-        this.rootLocation = Paths.get(ROOT_FILEPATH);
+        URL sqlScriptUrl = FileSystemStorageService.class.getClass().getResource("/public/uploads");
+        this.rootLocation = Paths.get(sqlScriptUrl.toString());
     }
 
     public String store(MultipartFile file) throws IOException {
