@@ -17,7 +17,7 @@ public class UserDB {
     static {
         try {
             Class.forName("org.postgresql.Driver");
-            String url = "jdbc:postgresql://localhost:5432/spotifyjavaauth";
+            String url = "jdbc:postgresql://localhost:5432/spotifylite";
 
             try {
                 mConn = DriverManager.getConnection(url);

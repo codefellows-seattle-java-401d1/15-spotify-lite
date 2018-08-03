@@ -20,13 +20,19 @@ import java.util.stream.Stream;
 
 @Service
 public class FileSystemStorageService {
-    private final Path rootLocation;
+    private final String LOCAL_PATH = "/Users/amycohen/codefellows/401/lab-amy/15-spotify-lite/src/main/resources/public/uploads";
+    private final String HEROKU_PATH = "/app/src/main/resources/public/uploads";
+    private Path rootLocation;
 
     @Autowired
     public FileSystemStorageService() {
         //URL sqlScriptUrl = FileSystemStorageService.class.getClass().getResource("/public/uploads");
         //this.rootLocation = Paths.get(sqlScriptUrl.toString());
-        this.rootLocation = Paths.get("/app/src/main/resources/public/uploads");
+        this.rootLocation = Paths.get(LOCAL_PATH);
+        if (this.rootLocation == null) {
+            this.rootLocation = Paths.get(HEROKU_PATH);
+        }
+        System.out.println("PATH: " + this.rootLocation);
     }
 
     public String store(MultipartFile file) throws IOException {
