@@ -24,8 +24,9 @@ public class FileSystemStorageService {
 
     @Autowired
     public FileSystemStorageService() {
-        URL sqlScriptUrl = FileSystemStorageService.class.getClass().getResource("/public/uploads");
-        this.rootLocation = Paths.get(sqlScriptUrl.toString());
+        //URL sqlScriptUrl = FileSystemStorageService.class.getClass().getResource("/public/uploads");
+        //this.rootLocation = Paths.get(sqlScriptUrl.toString());
+        this.rootLocation = Paths.get("/app/src/main/resources/public/uploads");
     }
 
     public String store(MultipartFile file) throws IOException {
