@@ -1,4 +1,4 @@
-package server;
+package server.models;
 
 public class Song {
     public String artist;

@@ -3,29 +3,24 @@
         <link rel="stylesheet" href="/style.css" />
     </head>
     <body>
-        <div th:if="${message}">
+        <main th:if="${message}">
             <h2 th:text="${message}"/>
-        </div>
+        </main>
 
-        <div>
+        <section>
             <form method="POST" enctype="multipart/form-data" action="/">
                 File to upload: <input type="file" name="file" />
                 <input type="submit" value="Upload" />
             </form>
-        </div>
+        </section>
 
-        <div>
+        <section>
             <ul>
-                <li th:each="file : ${files}">
-                    <p>
-                        <a th:href="${file}" th:text="${file}" />
-                    </p>
-                    <p th:if="${file.endsWith('jpg')}">
+                <li th:each="file : ${files}"><a th:href="${file}" th:text="${file}" /></li>
+                <li th:if="${file.endsWith('jpg')}">
                       <img th:src="${file}" />
-                    </p>
                 </li>
             </ul>
-        </div>
-
+        </section>
     </body>
 </html>

@@ -9,11 +9,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import server.db.SongDB;
+import server.models.Song;
 import server.storage.FileSystemStorageService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 @Controller
@@ -23,6 +27,7 @@ public class FileUploadController {
 
     @Autowired
     public FileUploadController(FileSystemStorageService storageService) {
+
         this.storageService = storageService;
     }
 
@@ -50,6 +55,7 @@ public class FileUploadController {
 
     @PostMapping("/")
     public String handleFileUpload(
+            @RequestParam("file")
             @RequestParam("artist") String artist,
             @RequestParam("song") String song,
             @RequestParam("file") MultipartFile file,
@@ -65,7 +71,7 @@ public class FileUploadController {
             mp3.title = song;
             mp3.path = filepath;
 
-            MockDB.songs.add(mp3);
+            SongDB.songs.add(mp3);
         } catch (IOException e) {
 
         }

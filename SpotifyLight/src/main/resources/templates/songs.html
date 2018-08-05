@@ -1,16 +1,29 @@
-<div>
-    <form method="POST" enctype="multipart/form-data" action="/">
-        Artist: <input type="text" name="artist" />
-        Song: <input type="text" name="song" />
-        File to upload: <input type="file" name="file" />
-        <input type="submit" value="Upload" />
-    </form>
-</div>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
-<div th:each="song : ${songs}">
-    <span th:text="${song.title}"></span>
-    <span th:text="${song.artist}"></span>
-    <audio controls="controls">
-        <source th:src="${song.path}"></source>
-    </audio>
-</div>
+    <head>
+        <link rel="stylesheet" th:href="@{/css/main.css}" href ="/css/main.css"/>
+        <title>Spotify Lite Lab</title>
+    </head>
+    <body>
+
+        <main>
+            <form method="POST" enctype="multipart/form-data" action="/">
+                Artist: <input type="text" name="artist" />
+                Song: <input type="text" name="song" />
+                File to upload: <input type="file" name="file" />
+                <input type="submit" value="Upload" />
+            </form>
+        </main>
+
+        <section class="music-play">
+            <ul th:each="song : ${songs}">
+                <li th:text="${song.title}"></li>
+                <li th:text="${song.artist}"></li>
+                <li><audio controls="controls">
+                    <source th:src="${song.path}"></source>
+                    </audio>
+                </li>
+            </ul>
+        </section>
+    </body>
+</html>
