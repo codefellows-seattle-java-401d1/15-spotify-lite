@@ -36,25 +36,25 @@ public class UserDB {
         }
     }
 
-    public static void reset() {
-        String sql = "DROP DATABASE IF EXISTS  spotifyjavaauth; " +
-                "CREATE DATABASE spotifyjavaauth; " +
-                "DROP TABLE IF EXISTS users; " +
-                "CREATE TABLE users ( " +
-                "        userid serial, " +
-                "        username text, " +
-                "        passhash text " +
-                "); " +
-                "INSERT INTO users(username, passhash) " +
-                "VALUES('gooseberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se'), " +
-                "       ('huckleberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se'); ";
-
-        try {
-            mConn.createStatement().execute(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void reset() {
+//        String sql = "DROP DATABASE IF EXISTS  spotifyjavaauth; " +
+//                "CREATE DATABASE spotifyjavaauth; " +
+//                "DROP TABLE IF EXISTS users; " +
+//                "CREATE TABLE users ( " +
+//                "        userid serial, " +
+//                "        username text, " +
+//                "        passhash text " +
+//                "); " +
+//                "INSERT INTO users(username, passhash) " +
+//                "VALUES('gooseberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se'), " +
+//                "       ('huckleberries', '$2a$12$u7s.Q60pWu01Yujt6KH4wuX8Dcf9Pm1PlwEoQcGXhHrpYzRH53.Se'); ";
+//
+//        try {
+//            mConn.createStatement().execute(sql);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static User createUser(String username, String password) {
         String hashed = BCrypt.hashpw(password, BCrypt.gensalt(12));
@@ -69,6 +69,28 @@ public class UserDB {
         } catch (SQLException e) {
             return null;
         }
+    }
+
+    public static User getUserByName(String searchUsername) {
+        String sql = "SELECT * FROM users WHERE username='%s'";
+        sql = String.format(sql, searchUsername);
+
+        try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
+            if (!results.next()) {
+                // no matching user
+                return null;
+            }
+
+            int userid = results.getInt("userid");
+            String username = results.getString("username");
+            String passhash = results.getString("passhash");
+
+            User user = new User(userid, username, passhash);
+            return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 
@@ -99,28 +121,6 @@ public class UserDB {
 
         try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
             results.next();
-            int userid = results.getInt("userid");
-            String username = results.getString("username");
-            String passhash = results.getString("passhash");
-
-            User user = new User(userid, username, passhash);
-            return user;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static User getUserByName(String searchUsername) {
-        String sql = "SELECT * FROM users WHERE username='%s'";
-        sql = String.format(sql, searchUsername);
-
-        try (ResultSet results = mConn.createStatement().executeQuery(sql)) {
-            if (!results.next()) {
-                // no matching user
-                return null;
-            }
-
             int userid = results.getInt("userid");
             String username = results.getString("username");
             String passhash = results.getString("passhash");
