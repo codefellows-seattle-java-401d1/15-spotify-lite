@@ -1,0 +1,48 @@
+body {
+    background: darkcyan;
+    color: whitesmoke;
+    font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+    font-size: 2vw;
+}
+
+
+body{
+    background-color: #f7f388;
+    color: #44467b;
+    font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+}
+
+main{
+    color: dimgrey;
+}
+
+label{
+    color: #282a4a;
+}
+
+h1{
+    font-size: 4vh;
+}
+
+main, form, .music-play{
+    background-color: whitesmoke;
+    border: dimgrey 1vh;
+    color: dimgrey;
+    font-size: 2vh;
+    width: auto;
+    padding: 2vw;
+}
+
+input {
+    margin: 3vw;
+    font-size: 2.5vh;
+}
+
+.button{
+    font-size: 3vh;
+
+}
+
+img {
+    max-width: 400px;
+}

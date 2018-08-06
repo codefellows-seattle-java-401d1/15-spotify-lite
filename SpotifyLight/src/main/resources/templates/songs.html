@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <link rel="stylesheet" th:href="@{/css/main.css}" href ="/css/main.css"/>
+        <title>Spotify Lite Lab</title>
+    </head>
+    <body>
+
+        <main>
+            <form method="POST" enctype="multipart/form-data" action="/">
+                Artist: <input type="text" name="artist" />
+                Song: <input type="text" name="song" />
+                File to upload: <input type="file" name="file" />
+                <input type="submit" value="Upload" />
+            </form>
+        </main>
+
+        <section class="music-play">
+            <ul th:each="song : ${songs}">
+                <li th:text="${song.title}"></li>
+                <li th:text="${song.artist}"></li>
+                <li><audio controls="controls">
+                    <source th:src="${song.path}"></source>
+                    </audio>
+                </li>
+            </ul>
+        </section>
+        <footer>
+            <p>All existing database music is Creative Common License</p>
+            <p>Such database music credits belong to :
+                <a href="http://freemusicpublicdomain.com">(freemusicpublicdomain.com)</a>
+                Licensed under <a href="http:///creativecommons.org/licenses/by/3.0/")/>Creative Commons: By
+                Attribution 3.0</p></p>
+                </p>
+        </footer>
+    </body>
+</html>
