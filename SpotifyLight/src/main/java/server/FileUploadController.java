@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import server.db.SongDB;
@@ -55,12 +56,15 @@ public class FileUploadController {
 
     @PostMapping("/")
     public String handleFileUpload(
-            @RequestParam("file")
+
             @RequestParam("artist") String artist,
             @RequestParam("song") String song,
-            @RequestParam("file") MultipartFile file,
-            Model model
-    ) {
+            @RequestParam("file") MultipartFile file)
+//            RedirectAttributes redirectAttributes,
+//            HttpServletRequest request)
+    {
+//
+//        ModelAndView mv = new ModelAndView();
         try {
             String filepath = storageService.store(file);
             filepath = filepath.split("static")[1];
