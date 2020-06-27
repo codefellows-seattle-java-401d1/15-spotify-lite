@@ -1,4 +1,6 @@
 # ![CF](http://i.imgur.com/7v5ASc8.png) Spotify Lite
+## Deployed Site
+[SpotifyLite](https://spotifylite-amycohen.herokuapp.com/)
 
 ## Resources
 * [Spotify](http://spotify.com)
